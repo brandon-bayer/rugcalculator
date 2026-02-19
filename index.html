@@ -257,6 +257,12 @@
           $(fields[nextIndex]).focus();
         }
       });
+      // Select all text on focus so typing clears the field
+      if ($(id).tagName === "INPUT") {
+        $(id).addEventListener("focus", (e) => {
+          e.target.select();
+        });
+      }
     });
 
     calc();
