@@ -52,21 +52,26 @@
       <label>
         <span>Edge Finish</span>
         <select id="edgeType">
-          <option value="Machine Binding" selected>Machine Binding - $1.90/lin ft</option>
+          <option value="Machine Binding" selected>Machine Binding - $2.10/lin ft</option>
           <option value="Hand Binding">Hand Binding - $11.00/lin ft</option>
-          <option value="Serging - Wool">Serging - Wool - $5.00/lin ft</option>
-          <option value="Serging - Cotton">Serging - Cotton - $3.10/lin ft</option>
+          <option value="Serging">Serging - $3.50/lin ft</option>
+          <option value="Wool Serging">Wool Serging - $5.00/lin ft</option>
           <option value="Hand Serging">Hand Serging - $16.00/lin ft</option>
-          <option value="Wide Topstitch Binding 1.25">Wide Topstitch Binding (1¼" showing) - $4.55/lin ft</option>
+          <option value="One Step Non-skid Backing|sqft">One Step Non-skid Backing - $3.50/sq ft</option>
+          <option value="Wide Topstitch Binding 1.25">Wide Topstitch Binding (1¼" showing) - $4.75/lin ft</option>
           <option value="Wide Topstitch Binding 2">Wide Topstitch Binding (2" showing) - $6.00/lin ft</option>
-          <option value="Blind Stitch Cotton">Blind Stitch Cotton (up to 3" showing) - $7.50/lin ft</option>
+          <option value="Blind Stitch Cotton">Blind Stitch Cotton (up to 3" showing) - $8.50/lin ft</option>
+          <option value="Sunbrella Binding">Sunbrella Binding - $8.50/lin ft</option>
           <option value="Leather Blind Stitch">Leather Blind Stitch (up to 3" showing) - $11.50/lin ft</option>
           <option value="Faux Leather Binding">Faux Leather Binding - $8.50/lin ft</option>
           <option value="Distressed Leather Binding">Distressed Leather Binding (up to 3" showing) - $18.50/lin ft</option>
           <option value="Microfiber Binding">Microfiber Binding (up to 3" showing) - $7.25/lin ft</option>
-          <option value="Linen Binding">Linen Binding - $9.95/lin ft</option>
-          <option value="COM Binding">C.O.M. Binding - $6.00/lin ft</option>
+          <option value="Linen Binding">Linen Binding - $11.00/lin ft</option>
+          <option value="COM Binding">C.O.M. Binding - $7.00/lin ft</option>
           <option value="COM Leather or Faux Leather">C.O.M. Leather or Faux Leather - $9.00/lin ft</option>
+          <option value="Hand Sewn Borders">Hand Sewn Borders or Seams on Woven Goods - $16.50/lin ft</option>
+          <option value="Non-skid Padding|sqft">Non-skid Padding - $1.25/sq ft</option>
+          <option value="Premium Area Rug Padding|sqft">Premium Area Rug Padding - $1.75/sq ft</option>
         </select>
       </label>
 
@@ -168,21 +173,26 @@
     });
 
     const rates = {
-      "Machine Binding": 1.90,
+      "Machine Binding": 2.10,
       "Hand Binding": 11.00,
-      "Serging - Wool": 5.00,
-      "Serging - Cotton": 3.10,
+      "Serging": 3.50,
+      "Wool Serging": 5.00,
       "Hand Serging": 16.00,
-      "Wide Topstitch Binding 1.25": 4.55,
+      "One Step Non-skid Backing": 3.50,
+      "Wide Topstitch Binding 1.25": 4.75,
       "Wide Topstitch Binding 2": 6.00,
-      "Blind Stitch Cotton": 7.50,
+      "Blind Stitch Cotton": 8.50,
+      "Sunbrella Binding": 8.50,
       "Leather Blind Stitch": 11.50,
       "Faux Leather Binding": 8.50,
       "Distressed Leather Binding": 18.50,
       "Microfiber Binding": 7.25,
-      "Linen Binding": 9.95,
-      "COM Binding": 6.00,
-      "COM Leather or Faux Leather": 9.00
+      "Linen Binding": 11.00,
+      "COM Binding": 7.00,
+      "COM Leather or Faux Leather": 9.00,
+      "Hand Sewn Borders": 16.50,
+      "Non-skid Padding": 1.25,
+      "Premium Area Rug Padding": 1.75
     };
 
     const fmt2 = (n) => Number.isFinite(n) ? n.toFixed(2) : "—";
@@ -198,9 +208,13 @@
       const rugL = num("rugL");
       const rollW = num("rollW");
       const costSqYd = num("costSqYd");
-      const edgeType = $("edgeType").value;
+      const edgeTypeRaw = $("edgeType").value;
       const multiplier = num("multiplier");
       const taxRate = num("taxPct") / 100;
+
+      // Check if edge type is priced per sq ft
+      const isSqFt = edgeTypeRaw.includes("|sqft");
+      const edgeType = edgeTypeRaw.replace("|sqft", "");
 
       const sqft = rollW * rugL;
       const sqyd = sqft / 9;
@@ -208,8 +222,9 @@
       const materialCost = sqyd * costSqYd;
 
       const perimeter = 2 * (rugW + rugL);
+      const rugArea = rugW * rugL;
       const edgeRate = rates[edgeType] ?? 0;
-      const edgeCost = perimeter * edgeRate;
+      const edgeCost = isSqFt ? (rugArea * edgeRate) : (perimeter * edgeRate);
 
       const subtotal = materialCost + edgeCost;
       const sale = subtotal * multiplier;
@@ -221,7 +236,9 @@
       $("matCost").textContent = money(materialCost);
       $("perim").textContent = fmt2(perimeter);
       $("edgeRate").textContent = money(edgeRate);
-      $("edgeCostLabel").textContent = "Edge Cost - " + money(edgeRate) + "/lin ft";
+      $("edgeCostLabel").textContent = isSqFt
+        ? "Edge Cost - " + money(edgeRate) + "/sq ft"
+        : "Edge Cost - " + money(edgeRate) + "/lin ft";
       $("edgeCost").textContent = money(edgeCost);
       $("subtotal").textContent = money(subtotal);
       $("sale").textContent = money(sale);
