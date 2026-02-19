@@ -41,7 +41,7 @@
 
       <label>
         <span>Roll Width (ft)</span>
-        <input id="rollW" type="number" step="0.01" value="12" />
+        <input id="rollW" type="number" step="any" value="12" />
       </label>
 
       <label>
@@ -139,7 +139,7 @@
       input.dispatchEvent(new Event('input'));
     }
 
-    ["rugW", "rugL"].forEach(id => {
+    ["rugW", "rugL", "rollW"].forEach(id => {
       $(id).addEventListener("keydown", (e) => {
         if (e.key === "ArrowUp") {
           e.preventDefault();
