@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rug Calculator</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 24px; color: #111; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 980px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
+    h1 { font-size: 20px; margin: 0 0 16px; }
+    h2 { font-size: 14px; margin: 0 0 10px; color: #333; text-transform: uppercase; letter-spacing: .04em; }
+    label { display: grid; grid-template-columns: 1fr 180px; align-items: center; gap: 10px; padding: 6px 0; }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+    .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; }
+    .row:last-child { border-bottom: 0; }
+    .k { color: #333; }
+    .v { font-variant-numeric: tabular-nums; }
+    .total { font-weight: 700; font-size: 16px; padding-top: 10px; }
+    .note { color: #555; font-size: 12px; margin-top: 10px; line-height: 1.35; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } label { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Rug Calculator</h1>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Inputs</h2>
+
+      <label>
+        <span>Rug Width (ft)</span>
+        <input id="rugW" type="number" step="0.01" value="10" />
+      </label>
+
+      <label>
+        <span>Rug Length (ft)</span>
+        <input id="rugL" type="number" step="0.01" value="14" />
+      </label>
+
+      <label>
+        <span>Roll Width (ft)</span>
+        <input id="rollW" type="number" step="0.01" value="12" />
+      </label>
+
+      <label>
+        <span>Carpet Cost ($/sq yd)</span>
+        <input id="costSqYd" type="number" step="0.01" value="35" />
+      </label>
+
+      <label>
+        <span>Edge Finish</span>
+        <select id="edgeType">
+          <option>Binding</option>
+          <option selected>Machine Serging</option>
+          <option>Hand Serging</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Margin Markup (%)</span>
+        <input id="marginPct" type="number" step="0.01" value="40" />
+      </label>
+
+      <label>
+        <span>Sales Tax (%)</span>
+        <input id="taxPct" type="number" step="0.01" value="9.75" />
+      </label>
+
+      <div class="note">
+        Material area uses <b>Roll Width × Rug Length</b>. Edge finishing uses <b>Rug Width/Length</b> perimeter.
+        Margin is treated as <b>markup</b>: Sale = Subtotal × (1 + markup%).
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Results</h2>
+
+      <div class="row"><span class="k">Material Area (sq ft)</span><span class="v" id="sqft">—</span></div>
+      <div class="row"><span class="k">Material Area (sq yd)</span><span class="v" id="sqyd">—</span></div>
+      <div class="row"><span class="k">Material Cost</span><span class="v" id="matCost">—</span></div>
+      <div class="row"><span class="k">Perimeter (lin ft)</span><span class="v" id="perim">—</span></div>
+      <div class="row"><span class="k">Edge Rate ($/lin ft)</span><span class="v" id="edgeRate">—</span></div>
+      <div class="row"><span class="k">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
+
+      <div class="row total"><span class="k">Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
+      <div class="row"><span class="k">Sale Price</span><span class="v" id="sale">—</span></div>
+      <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
+      <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const rates = {
+      "Binding": 2.50,
+      "Machine Serging": 5.00,
+      "Hand Serging": 8.00
+    };
+
+    const fmt2 = (n) => Number.isFinite(n) ? n.toFixed(2) : "—";
+    const money = (n) => Number.isFinite(n) ? n.toLocaleString(undefined, { style: "currency", currency: "USD" }) : "—";
+
+    function num(id) {
+      const v = parseFloat($(id).value);
+      return Number.isFinite(v) ? v : 0;
+    }
+
+    function calc() {
+      const rugW = num("rugW");
+      const rugL = num("rugL");
+      const rollW = num("rollW");
+      const costSqYd = num("costSqYd");
+      const edgeType = $("edgeType").value;
+      const margin = num("marginPct") / 100;
+      const taxRate = num("taxPct") / 100;
+
+      const sqft = rollW * rugL;
+      const sqyd = sqft / 9;
+
+      const materialCost = sqyd * costSqYd;
+
+      const perimeter = 2 * (rugW + rugL);
+      const edgeRate = rates[edgeType] ?? 0;
+      const edgeCost = perimeter * edgeRate;
+
+      const subtotal = materialCost + edgeCost;
+      const sale = subtotal * (1 + margin);
+      const tax = sale * taxRate;
+      const grand = sale + tax;
+
+      $("sqft").textContent = fmt2(sqft);
+      $("sqyd").textContent = fmt2(sqyd);
+      $("matCost").textContent = money(materialCost);
+      $("perim").textContent = fmt2(perimeter);
+      $("edgeRate").textContent = money(edgeRate);
+      $("edgeCost").textContent = money(edgeCost);
+      $("subtotal").textContent = money(subtotal);
+      $("sale").textContent = money(sale);
+      $("tax").textContent = money(tax);
+      $("grand").textContent = money(grand);
+    }
+
+    ["rugW","rugL","rollW","costSqYd","edgeType","marginPct","taxPct"].forEach(id => {
+      $(id).addEventListener("input", calc);
+      $(id).addEventListener("change", calc);
+    });
+
+    calc();
+  </script>
+</body>
+</html>
