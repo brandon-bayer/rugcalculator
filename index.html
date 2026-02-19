@@ -52,9 +52,21 @@
       <label>
         <span>Edge Finish</span>
         <select id="edgeType">
-          <option value="Binding">Binding - $2.50/lin ft</option>
-          <option value="Machine Serging" selected>Machine Serging - $5.00/lin ft</option>
-          <option value="Hand Serging">Hand Serging - $8.00/lin ft</option>
+          <option value="Machine Binding" selected>Machine Binding - $1.90/lin ft</option>
+          <option value="Hand Binding">Hand Binding - $11.00/lin ft</option>
+          <option value="Serging - Wool">Serging - Wool - $5.00/lin ft</option>
+          <option value="Serging - Cotton">Serging - Cotton - $3.10/lin ft</option>
+          <option value="Hand Serging">Hand Serging - $16.00/lin ft</option>
+          <option value="Wide Topstitch Binding 1.25">Wide Topstitch Binding (1¼" showing) - $4.55/lin ft</option>
+          <option value="Wide Topstitch Binding 2">Wide Topstitch Binding (2" showing) - $6.00/lin ft</option>
+          <option value="Blind Stitch Cotton">Blind Stitch Cotton (up to 3" showing) - $7.50/lin ft</option>
+          <option value="Leather Blind Stitch">Leather Blind Stitch (up to 3" showing) - $11.50/lin ft</option>
+          <option value="Faux Leather Binding">Faux Leather Binding - $8.50/lin ft</option>
+          <option value="Distressed Leather Binding">Distressed Leather Binding (up to 3" showing) - $18.50/lin ft</option>
+          <option value="Microfiber Binding">Microfiber Binding (up to 3" showing) - $7.25/lin ft</option>
+          <option value="Linen Binding">Linen Binding - $9.95/lin ft</option>
+          <option value="COM Binding">C.O.M. Binding - $6.00/lin ft</option>
+          <option value="COM Leather or Faux Leather">C.O.M. Leather or Faux Leather - $9.00/lin ft</option>
         </select>
       </label>
 
@@ -95,9 +107,21 @@
     const $ = (id) => document.getElementById(id);
 
     const rates = {
-      "Binding": 2.50,
-      "Machine Serging": 5.00,
-      "Hand Serging": 8.00
+      "Machine Binding": 1.90,
+      "Hand Binding": 11.00,
+      "Serging - Wool": 5.00,
+      "Serging - Cotton": 3.10,
+      "Hand Serging": 16.00,
+      "Wide Topstitch Binding 1.25": 4.55,
+      "Wide Topstitch Binding 2": 6.00,
+      "Blind Stitch Cotton": 7.50,
+      "Leather Blind Stitch": 11.50,
+      "Faux Leather Binding": 8.50,
+      "Distressed Leather Binding": 18.50,
+      "Microfiber Binding": 7.25,
+      "Linen Binding": 9.95,
+      "COM Binding": 6.00,
+      "COM Leather or Faux Leather": 9.00
     };
 
     const fmt2 = (n) => Number.isFinite(n) ? n.toFixed(2) : "—";
