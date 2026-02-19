@@ -168,9 +168,17 @@
       $("grand").textContent = money(grand);
     }
 
-    ["rugW","rugL","rollW","costSqYd","edgeType","marginPct","taxPct"].forEach(id => {
+    const fields = ["rugW","rugL","rollW","costSqYd","edgeType","marginPct","taxPct"];
+    fields.forEach((id, index) => {
       $(id).addEventListener("input", calc);
       $(id).addEventListener("change", calc);
+      $(id).addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const nextIndex = (index + 1) % fields.length;
+          $(fields[nextIndex]).focus();
+        }
+      });
     });
 
     calc();
