@@ -11,8 +11,8 @@
     .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
     h1 { font-size: 20px; margin: 0 0 16px; }
     h2 { font-size: 14px; margin: 0 0 10px; color: #333; text-transform: uppercase; letter-spacing: .04em; }
-    label { display: grid; grid-template-columns: 1fr 180px; align-items: center; gap: 10px; padding: 6px 0; }
-    input, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+    label { display: grid; grid-template-columns: 1fr minmax(0, 200px); align-items: center; gap: 10px; padding: 6px 0; }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
     .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; }
     .row:last-child { border-bottom: 0; }
     .k { color: #333; }
@@ -52,9 +52,9 @@
       <label>
         <span>Edge Finish</span>
         <select id="edgeType">
-          <option>Binding</option>
-          <option selected>Machine Serging</option>
-          <option>Hand Serging</option>
+          <option value="Binding">Binding - $2.50/lin ft</option>
+          <option value="Machine Serging" selected>Machine Serging - $5.00/lin ft</option>
+          <option value="Hand Serging">Hand Serging - $8.00/lin ft</option>
         </select>
       </label>
 
