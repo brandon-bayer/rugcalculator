@@ -31,13 +31,27 @@
 
       <label>
         <span>Rug Width (ft)</span>
-        <input id="rugW" type="number" step="0.01" value="10" />
+        <input id="rugW" type="number" step="0.0833" value="10" list="inchIncrements" />
       </label>
 
       <label>
         <span>Rug Length (ft)</span>
-        <input id="rugL" type="number" step="0.01" value="14" />
+        <input id="rugL" type="number" step="0.0833" value="14" list="inchIncrements" />
       </label>
+
+      <datalist id="inchIncrements">
+        <option value="0.0833">1"</option>
+        <option value="0.167">2"</option>
+        <option value="0.250">3"</option>
+        <option value="0.333">4"</option>
+        <option value="0.417">5"</option>
+        <option value="0.500">6"</option>
+        <option value="0.583">7"</option>
+        <option value="0.667">8"</option>
+        <option value="0.750">9"</option>
+        <option value="0.833">10"</option>
+        <option value="0.917">11"</option>
+      </datalist>
 
       <label>
         <span>Roll Width (ft)</span>
