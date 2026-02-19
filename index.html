@@ -94,7 +94,7 @@
       <div class="row"><span class="k">Material Cost</span><span class="v" id="matCost">—</span></div>
       <div class="row"><span class="k">Perimeter (lin ft)</span><span class="v" id="perim">—</span></div>
       <div class="row"><span class="k">Edge Rate ($/lin ft)</span><span class="v" id="edgeRate">—</span></div>
-      <div class="row"><span class="k">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
+      <div class="row"><span class="k" id="edgeCostLabel">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
 
       <div class="row total"><span class="k">Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
       <div class="row"><span class="k">Sale Price</span><span class="v" id="sale">—</span></div>
@@ -160,6 +160,7 @@
       $("matCost").textContent = money(materialCost);
       $("perim").textContent = fmt2(perimeter);
       $("edgeRate").textContent = money(edgeRate);
+      $("edgeCostLabel").textContent = "Edge Cost - " + money(edgeRate) + "/lin ft";
       $("edgeCost").textContent = money(edgeCost);
       $("subtotal").textContent = money(subtotal);
       $("sale").textContent = money(sale);
