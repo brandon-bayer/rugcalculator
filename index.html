@@ -140,14 +140,30 @@
     }
 
     ["rugW", "rugL", "rollW"].forEach(id => {
+      let lastValue = parseFloat($(id).value) || 0;
+
       $(id).addEventListener("keydown", (e) => {
         if (e.key === "ArrowUp") {
           e.preventDefault();
           stepFeetInches($(id), 1);
+          lastValue = parseFloat($(id).value);
         } else if (e.key === "ArrowDown") {
           e.preventDefault();
           stepFeetInches($(id), -1);
+          lastValue = parseFloat($(id).value);
         }
+      });
+
+      $(id).addEventListener("input", (e) => {
+        const current = parseFloat($(id).value) || 0;
+        const diff = current - lastValue;
+        // Detect if native spinner was used (value changed by ~1)
+        if (Math.abs(Math.abs(diff) - 1) < 0.1) {
+          // Restore previous value and apply correct stepping
+          $(id).value = lastValue;
+          stepFeetInches($(id), diff > 0 ? 1 : -1);
+        }
+        lastValue = parseFloat($(id).value);
       });
     });
 
