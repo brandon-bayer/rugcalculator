@@ -112,6 +112,7 @@
       <div class="row total"><span class="k">Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
       <div class="row"><span class="k">Sale Price</span><span class="v" id="sale">—</span></div>
       <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
+      <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
       <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
     </div>
   </div>
@@ -252,6 +253,7 @@
       $("subtotal").textContent = money(subtotal);
       $("sale").textContent = money(sale);
       $("tax").textContent = money(tax);
+      $("freightCost").textContent = money(freight);
       $("grand").textContent = money(grand);
     }
 
