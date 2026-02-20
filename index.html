@@ -114,6 +114,18 @@
       <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
       <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
       <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
+
+      <label style="margin-top: 16px;">
+        <span>Trade Discount</span>
+        <select id="tradeDiscount">
+          <option value="0" selected>None</option>
+          <option value="10">10%</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+        </select>
+      </label>
+      <div class="row total"><span class="k">Trade Price</span><span class="v" id="tradePrice">—</span></div>
     </div>
   </div>
 
@@ -240,6 +252,8 @@
       const sale = subtotal * multiplier;
       const tax = sale * taxRate;
       const grand = sale + tax + freight;
+      const tradeDiscountPct = num("tradeDiscount") / 100;
+      const tradePrice = grand * (1 - tradeDiscountPct);
 
       $("sqft").textContent = fmt2(sqft);
       $("sqyd").textContent = fmt2(sqyd);
@@ -255,9 +269,10 @@
       $("tax").textContent = money(tax);
       $("freightCost").textContent = money(freight);
       $("grand").textContent = money(grand);
+      $("tradePrice").textContent = money(tradePrice);
     }
 
-    const fields = ["rugW","rugL","rollW","costSqYd","edgeType","multiplier","taxPct","freight"];
+    const fields = ["rugW","rugL","rollW","costSqYd","edgeType","multiplier","taxPct","freight","tradeDiscount"];
     fields.forEach((id, index) => {
       $(id).addEventListener("input", calc);
       $(id).addEventListener("change", calc);
