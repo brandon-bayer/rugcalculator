@@ -4,24 +4,135 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rug Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    body { margin: 24px; color: #111; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 980px; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
-    h1 { font-size: 20px; margin: 0 0 16px; }
-    h2 { font-size: 14px; margin: 0 0 10px; color: #333; text-transform: uppercase; letter-spacing: .04em; }
-    label { display: grid; grid-template-columns: 1fr minmax(0, 200px); align-items: center; gap: 10px; padding: 6px 0; }
+    *, *::before, *::after { box-sizing: border-box; }
+    :root { font-family: "Plus Jakarta Sans", sans-serif; }
+    body {
+      margin: 0;
+      padding: 44px 26px;
+      color: #1A1A1A;
+      background: #FAFAF8;
+      min-height: 100vh;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 31px 31px 26px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+      transition: box-shadow 280ms ease;
+    }
+    .card:hover {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+    }
+    h1 {
+      font-family: "Instrument Serif", serif;
+      font-size: 35px;
+      font-weight: 400;
+      margin: 0 auto 31px;
+      max-width: 1120px;
+      color: #464538;
+      letter-spacing: -0.01em;
+    }
+    h2 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 0 0 18px;
+      color: #464538;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    label {
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 220px);
+      align-items: center;
+      gap: 13px;
+      padding: 8px 0;
+      font-size: 15.5px;
+      color: #1A1A1A;
+    }
+    label span {
+      font-weight: 500;
+    }
     .row-inputs { display: flex; gap: 16px; }
-    .row-inputs label { flex: 1; grid-template-columns: 1fr minmax(0, 100px); }
-    input, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
-    .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; }
+    .row-inputs label { flex: 1; grid-template-columns: 1fr minmax(0, 110px); }
+    input, select {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid transparent;
+      border-radius: 11px;
+      font-size: 15.5px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      box-sizing: border-box;
+      background: #F5F3F0;
+      color: #1A1A1A;
+      transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+      outline: none;
+    }
+    input:hover, select:hover {
+      background: #F0EDE8;
+    }
+    input:focus, select:focus {
+      border-color: #9C7B5C;
+      box-shadow: 0 0 0 3px rgba(156,123,92,0.12);
+      background: #fff;
+    }
+    select {
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B6560' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 35px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 9px 0;
+      border-bottom: 1px solid #F0EDE8;
+      font-size: 15.5px;
+    }
     .row:last-child { border-bottom: 0; }
-    .k { color: #333; }
-    .v { font-variant-numeric: tabular-nums; }
-    .total { font-weight: 700; font-size: 16px; padding-top: 10px; }
-    .note { color: #555; font-size: 12px; margin-top: 10px; line-height: 1.35; }
-    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } label { grid-template-columns: 1fr; } .row-inputs { flex-direction: row; gap: 16px; } .row-inputs label { grid-template-columns: 1fr minmax(0, 80px); } }
+    .k { color: #4A4540; }
+    .v { font-variant-numeric: tabular-nums; font-weight: 500; color: #1A1A1A; }
+    .total {
+      font-weight: 700;
+      font-size: 15.5px;
+      padding-top: 13px;
+      margin-top: 4px;
+      border-bottom: none;
+    }
+    .total .k { color: #111; }
+    .total .v { color: #464538; }
+    .note {
+      color: #555;
+      font-size: 13px;
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+    .note b { color: #111; font-weight: 600; }
+    @media (max-width: 820px) {
+      body { padding: 26px 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 24px 22px 22px; }
+      label { grid-template-columns: 1fr; }
+      .row-inputs { flex-direction: row; gap: 18px; }
+      .row-inputs label { grid-template-columns: 1fr minmax(0, 88px); }
+      h1 { font-size: 29px; margin-bottom: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -79,7 +190,7 @@
       </label>
 
       <label>
-        <span>Markup</span>
+        <span>Rug Markup</span>
         <input id="multiplier" type="number" step="0.01" value="2.35" />
       </label>
 
@@ -93,9 +204,27 @@
         <input id="freight" type="number" step="0.01" value="0" />
       </label>
 
+      <hr style="border: none; border-top: 1px solid #E8E4DF; margin: 14px 0;" />
+
+      <label>
+        <span>Rug Pad</span>
+        <select id="rugPad">
+          <option value="None" selected>None</option>
+          <option value="Non-Skid">Non-Skid - $0.44/sq ft</option>
+          <option value="No-Move">No-Move - $0.54/sq ft</option>
+          <option value="Ambassador Spec 40">Ambassador Spec 40 - $0.23/sq ft</option>
+          <option value="Smart Cushion">Smart Cushion - $0.37/sq ft</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Pad Markup</span>
+        <input id="padMultiplier" type="number" step="0.01" value="1.75" />
+      </label>
+
       <div class="note">
         Material area uses <b>Roll Width × Rug Length</b>. Edge finishing uses <b>Rug Width/Length</b> perimeter.
-        Sale Price = Subtotal × <b>Markup</b>.
+        Rug and pad sale prices use their own markups.
       </div>
     </div>
 
@@ -109,13 +238,21 @@
       <div class="row"><span class="k">Edge Rate ($/lin ft)</span><span class="v" id="edgeRate">—</span></div>
       <div class="row"><span class="k" id="edgeCostLabel">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
 
-      <div class="row total"><span class="k">Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
-      <div class="row"><span class="k">Sale Price</span><span class="v" id="sale">—</span></div>
-      <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
-      <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
-      <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
+      <div class="row total"><span class="k">Rug Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
+      <div class="row" style="font-weight:700;border-bottom:none"><span class="k" style="color:#111">Rug Sale Price</span><span class="v" style="color:#464538" id="sale">—</span></div>
 
-      <div style="margin-top: 20px; padding-top: 16px; border-top: 2px solid #ddd;">
+      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #E8E4DF;">
+        <div class="row"><span class="k" id="padCostLabel">Rug Pad Cost</span><span class="v" id="padCost">—</span></div>
+        <div class="row total"><span class="k">Pad Sale Price</span><span class="v" id="padSale">—</span></div>
+      </div>
+
+      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #E8E4DF;">
+        <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
+        <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
+        <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
+      </div>
+
+      <div style="margin-top: 20px; padding-top: 18px; border-top: 2px solid #E8E4DF;">
         <h2>Trade Pricing</h2>
         <label>
           <span>Trade Discount</span>
@@ -196,6 +333,14 @@
       });
     });
 
+    const padRates = {
+      "None": 0,
+      "Non-Skid": 0.44,
+      "No-Move": 0.54,
+      "Ambassador Spec 40": 0.23,
+      "Smart Cushion": 0.37
+    };
+
     const rates = {
       "Machine Binding": 2.10,
       "Hand Binding": 11.00,
@@ -251,10 +396,17 @@
       const edgeRate = rates[edgeType] ?? 0;
       const edgeCost = isSqFt ? (rugArea * edgeRate) : (perimeter * edgeRate);
 
-      const subtotal = materialCost + edgeCost;
-      const sale = subtotal * multiplier;
-      const tax = sale * taxRate;
-      const grand = sale + tax + freight;
+      const padType = $("rugPad").value;
+      const padRate = padRates[padType] ?? 0;
+      const padCost = rugArea * padRate;
+      const padMultiplier = num("padMultiplier");
+
+      const rugSubtotal = materialCost + edgeCost;
+      const rugSale = rugSubtotal * multiplier;
+      const padSale = padCost * padMultiplier;
+      const combinedSale = rugSale + (padType !== "None" ? padSale : 0);
+      const tax = combinedSale * taxRate;
+      const grand = combinedSale + tax + freight;
       const tradeDiscountPct = num("tradeDiscount") / 100;
       const tradePrice = grand * (1 - tradeDiscountPct);
 
@@ -267,15 +419,20 @@
         ? "Edge Cost - " + money(edgeRate) + "/sq ft"
         : "Edge Cost - " + money(edgeRate) + "/lin ft";
       $("edgeCost").textContent = money(edgeCost);
-      $("subtotal").textContent = money(subtotal);
-      $("sale").textContent = money(sale);
+      $("subtotal").textContent = money(rugSubtotal);
+      $("sale").textContent = money(rugSale);
+      $("padCostLabel").textContent = padType === "None"
+        ? "Rug Pad Cost"
+        : "Rug Pad Cost - " + padType + " (" + money(padRate) + "/sq ft)";
+      $("padCost").textContent = padType === "None" ? "—" : money(padCost);
+      $("padSale").textContent = padType === "None" ? "—" : money(padSale);
       $("tax").textContent = money(tax);
       $("freightCost").textContent = money(freight);
       $("grand").textContent = money(grand);
       $("tradePrice").textContent = money(tradePrice);
     }
 
-    const fields = ["rugW","rugL","rollW","costSqYd","edgeType","multiplier","taxPct","freight","tradeDiscount"];
+    const fields = ["rugW","rugL","rollW","costSqYd","edgeType","multiplier","taxPct","freight","rugPad","padMultiplier","tradeDiscount"];
     fields.forEach((id, index) => {
       $(id).addEventListener("input", calc);
       $(id).addEventListener("change", calc);
