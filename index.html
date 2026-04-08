@@ -8,85 +8,195 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    :root { font-family: "Plus Jakarta Sans", sans-serif; }
+    /* ── Spacing scale (4px base) ── */
+    :root {
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 20px;
+      --sp-6: 24px;
+      --sp-8: 32px;
+      --sp-10: 40px;
+      --sp-12: 48px;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+
+      --font-xs: 11px;
+      --font-sm: 13px;
+      --font-base: 15px;
+      --font-lg: 28px;
+
+      --transition: 200ms ease;
+
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color-scheme: light dark;
+    }
+
+    /* ── Light theme ── */
+    :root, [data-theme="light"] {
+      --bg: #F7F6F3;
+      --bg-card: #FFFFFF;
+      --bg-input: #F0EDE8;
+      --bg-input-hover: #E8E4DF;
+      --bg-input-focus: #FFFFFF;
+      --border: #E8E4DF;
+      --border-strong: #D5D0C9;
+      --text-primary: #1A1A1A;
+      --text-secondary: #5C5750;
+      --text-tertiary: #8A8580;
+      --text-heading: #464538;
+      --accent: #9C7B5C;
+      --accent-subtle: rgba(156,123,92,0.10);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.03);
+      --shadow-md: 0 2px 4px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.05);
+    }
+
+    /* ── Dark theme ── */
+    [data-theme="dark"] {
+      --bg: #1A1918;
+      --bg-card: #242320;
+      --bg-input: #2E2D2A;
+      --bg-input-hover: #383632;
+      --bg-input-focus: #32302C;
+      --border: #3A3835;
+      --border-strong: #4A4845;
+      --text-primary: #E8E4DF;
+      --text-secondary: #A8A29E;
+      --text-tertiary: #78716C;
+      --text-heading: #D5D0C9;
+      --accent: #C4A882;
+      --accent-subtle: rgba(196,168,130,0.12);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15);
+      --shadow-md: 0 2px 4px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+
     body {
       margin: 0;
-      padding: 44px 26px;
-      color: #1A1A1A;
-      background: #FAFAF8;
+      padding: var(--sp-12) var(--sp-8);
+      color: var(--text-primary);
+      background: var(--bg);
       min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
     }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 26px;
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #fff;
-      border: none;
-      border-radius: 18px;
-      padding: 31px 31px 26px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
-      transition: box-shadow 280ms ease;
-    }
-    .card:hover {
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1080px;
+      margin: 0 auto var(--sp-8);
     }
     h1 {
       font-family: "Instrument Serif", serif;
-      font-size: 35px;
+      font-size: var(--font-lg);
       font-weight: 400;
-      margin: 0 auto 31px;
-      max-width: 1120px;
-      color: #464538;
+      color: var(--text-heading);
       letter-spacing: -0.01em;
     }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+    }
+    .version {
+      font-size: var(--font-sm);
+      color: var(--text-tertiary);
+    }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+    }
+    .theme-toggle:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-6);
+      box-shadow: var(--shadow-sm);
+      transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    /* ── Section headings ── */
     h2 {
       font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 12px;
+      font-size: var(--font-xs);
       font-weight: 600;
-      margin: 0 0 18px;
-      color: #464538;
+      margin: 0 0 var(--sp-4);
+      color: var(--text-tertiary);
       text-transform: uppercase;
       letter-spacing: .08em;
     }
+
+    /* ── Form labels ── */
     label {
       display: grid;
-      grid-template-columns: 1fr minmax(0, 220px);
+      grid-template-columns: 1fr minmax(0, 200px);
       align-items: center;
-      gap: 13px;
-      padding: 8px 0;
-      font-size: 15.5px;
-      color: #1A1A1A;
+      gap: var(--sp-3);
+      padding: var(--sp-2) 0;
+      font-size: var(--font-base);
+      color: var(--text-primary);
     }
-    label span {
-      font-weight: 500;
-    }
-    .row-inputs { display: flex; gap: 16px; }
-    .row-inputs label { flex: 1; grid-template-columns: 1fr minmax(0, 110px); }
+    label span { font-weight: 500; }
+
+    .row-inputs { display: flex; gap: var(--sp-4); }
+    .row-inputs label { flex: 1; grid-template-columns: 1fr minmax(0, 100px); }
+
+    /* ── Inputs ── */
     input, select {
       width: 100%;
-      padding: 11px 13px;
+      height: 40px;
+      padding: 0 var(--sp-3);
       border: 1.5px solid transparent;
-      border-radius: 11px;
-      font-size: 15.5px;
+      border-radius: var(--radius-sm);
+      font-size: var(--font-base);
       font-family: "Plus Jakarta Sans", sans-serif;
-      box-sizing: border-box;
-      background: #F5F3F0;
-      color: #1A1A1A;
-      transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
       outline: none;
     }
-    input:hover, select:hover {
-      background: #F0EDE8;
-    }
+    input:hover, select:hover { background-color: var(--bg-input-hover); }
     input:focus, select:focus {
-      border-color: #9C7B5C;
-      box-shadow: 0 0 0 3px rgba(156,123,92,0.12);
-      background: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+      background-color: var(--bg-input-focus);
     }
     select {
       cursor: pointer;
@@ -94,81 +204,113 @@
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B6560' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 13px center;
-      padding-right: 35px;
+      background-position: right 12px center;
+      padding-right: var(--sp-8);
     }
+    [data-theme="dark"] select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23A8A29E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+    }
+
+    /* ── Dividers ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: var(--sp-3) 0;
+    }
+
+    /* ── Result rows ── */
     .row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 9px 0;
-      border-bottom: 1px solid #F0EDE8;
-      font-size: 15.5px;
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: var(--font-base);
     }
     .row:last-child { border-bottom: 0; }
-    .k { color: #4A4540; }
-    .v { font-variant-numeric: tabular-nums; font-weight: 500; color: #1A1A1A; }
+    .k { color: var(--text-secondary); }
+    .v { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text-primary); }
+
     .total {
       font-weight: 700;
-      font-size: 15.5px;
-      padding-top: 13px;
-      margin-top: 4px;
+      font-size: var(--font-base);
+      padding-top: var(--sp-3);
+      margin-top: var(--sp-1);
       border-bottom: none;
     }
-    .total .k { color: #111; }
-    .total .v { color: #464538; }
-    .note {
-      color: #555;
-      font-size: 13px;
-      margin-top: 18px;
-      line-height: 1.5;
+    .total .k { color: var(--text-primary); }
+    .total .v { color: var(--text-heading); }
+
+    /* ── Result sections ── */
+    .result-section {
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--border);
     }
-    .note b { color: #111; font-weight: 600; }
+
+    /* ── Note ── */
+    .note {
+      color: var(--text-tertiary);
+      font-size: var(--font-sm);
+      margin-top: var(--sp-5);
+      line-height: 1.55;
+    }
+    .note b { color: var(--text-secondary); font-weight: 600; }
+
+    /* ── Export bar ── */
     .export-bar {
       display: flex;
       justify-content: center;
-      gap: 14px;
-      max-width: 1120px;
-      margin: 26px auto 0;
+      gap: var(--sp-3);
+      max-width: 1080px;
+      margin: var(--sp-6) auto 0;
     }
     .export-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border: 1.5px solid #E8E4DF;
-      border-radius: 11px;
-      background: #fff;
-      color: #464538;
+      gap: var(--sp-2);
+      height: 40px;
+      padding: 0 var(--sp-5);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-secondary);
       font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 14px;
+      font-size: var(--font-sm);
       font-weight: 600;
       cursor: pointer;
-      transition: background 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
     }
     .export-btn:hover {
-      background: #F5F3F0;
-      border-color: #D5D0C9;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+      background: var(--bg-input);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
     }
-    .export-btn:active {
-      background: #F0EDE8;
-    }
+    .export-btn:active { background: var(--bg-input-hover); }
+
+    /* ── Mobile ── */
     @media (max-width: 820px) {
-      body { padding: 26px 18px; }
+      body { padding: var(--sp-6) var(--sp-4); }
       .grid { grid-template-columns: 1fr; }
-      .card { padding: 24px 22px 22px; }
+      .card { padding: var(--sp-5); }
       label { grid-template-columns: 1fr; }
-      .row-inputs { flex-direction: row; gap: 18px; }
+      .row-inputs { flex-direction: row; gap: var(--sp-4); }
       .row-inputs label { grid-template-columns: 1fr minmax(0, 88px); }
-      h1 { font-size: 29px; margin-bottom: 22px; }
+      h1 { font-size: 24px; }
+      .version { display: none; }
     }
   </style>
 </head>
-<body>
-  <div style="display:flex;justify-content:space-between;align-items:baseline;max-width:1120px;margin:0 auto 31px;">
-    <h1 style="margin:0">Rug Calculator</h1>
-    <span style="font-family:'Instrument Serif',serif;font-size:15.5px;color:#4A4540;">Version 1.1 - 03.20.2026</span>
+<body data-theme="light">
+  <div class="header">
+    <h1>Rug Calculator</h1>
+    <div class="header-right">
+      <span class="version">v1.2 &middot; 04.07.2026</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
   </div>
 
   <div class="grid">
@@ -237,7 +379,7 @@
         <input id="freight" type="number" step="0.01" value="0" />
       </label>
 
-      <hr style="border: none; border-top: 1px solid #E8E4DF; margin: 14px 0;" />
+      <hr class="divider" />
 
       <label>
         <span>Rug Pad</span>
@@ -272,20 +414,20 @@
       <div class="row"><span class="k" id="edgeCostLabel">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
 
       <div class="row total"><span class="k">Rug Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
-      <div class="row" style="font-weight:700;border-bottom:none"><span class="k" style="color:#111">Rug Sale Price</span><span class="v" style="color:#464538" id="sale">—</span></div>
+      <div class="row total"><span class="k">Rug Sale Price</span><span class="v" id="sale">—</span></div>
 
-      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #E8E4DF;">
+      <div class="result-section">
         <div class="row"><span class="k" id="padCostLabel">Rug Pad Cost</span><span class="v" id="padCost">—</span></div>
         <div class="row total"><span class="k">Pad Sale Price</span><span class="v" id="padSale">—</span></div>
       </div>
 
-      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #E8E4DF;">
+      <div class="result-section">
         <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
         <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
         <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
       </div>
 
-      <div style="margin-top: 20px; padding-top: 18px; border-top: 2px solid #E8E4DF;">
+      <div class="result-section">
         <h2>Trade Pricing</h2>
         <label>
           <span>Trade Discount</span>
@@ -316,6 +458,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     const $ = (id) => document.getElementById(id);
+
+    /* ── Theme toggle ── */
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      body.setAttribute("data-theme", next);
+      localStorage.setItem("rug-calc-theme", next);
+    }
+    (function initTheme() {
+      const saved = localStorage.getItem("rug-calc-theme");
+      if (saved) document.body.setAttribute("data-theme", saved);
+      else if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+        document.body.setAttribute("data-theme", "dark");
+    })();
 
     const inchDecimals = [0, 0.0833, 0.167, 0.250, 0.333, 0.417, 0.500, 0.583, 0.667, 0.750, 0.833, 0.917];
 
