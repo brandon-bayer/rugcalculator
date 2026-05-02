@@ -6,82 +6,50 @@
   <title>Rug Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ── Spacing scale (4px base) ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --sp-1: 4px;
-      --sp-2: 8px;
-      --sp-3: 12px;
-      --sp-4: 16px;
-      --sp-5: 20px;
-      --sp-6: 24px;
-      --sp-8: 32px;
-      --sp-10: 40px;
-      --sp-12: 48px;
-
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-
-      --font-xs: 11px;
-      --font-sm: 13px;
-      --font-base: 15px;
-      --font-lg: 28px;
-
-      --transition: 200ms ease;
-
-      font-family: "Plus Jakarta Sans", sans-serif;
-      color-scheme: light dark;
+      --bg:         #f5f6f8;
+      --surface:    #ffffff;
+      --border:     #e2e5ea;
+      --text:       #374151;
+      --text-muted: #6b7280;
+      --text-head:  #111827;
+      --accent:     #1d4ed8;
+      --accent-lt:  #dbeafe;
+      --sell:       #15803d;
+      --sell-bg:    #f0fdf4;
+      --cost-bg:    #f9fafb;
+      --radius:     8px;
+      --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --font:       'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    /* ── Light theme ── */
-    :root, [data-theme="light"] {
-      --bg: #F7F6F3;
-      --bg-card: #FFFFFF;
-      --bg-input: #F0EDE8;
-      --bg-input-hover: #E8E4DF;
-      --bg-input-focus: #FFFFFF;
-      --border: #E8E4DF;
-      --border-strong: #D5D0C9;
-      --text-primary: #1A1A1A;
-      --text-secondary: #5C5750;
-      --text-tertiary: #8A8580;
-      --text-heading: #464538;
-      --accent: #9C7B5C;
-      --accent-subtle: rgba(156,123,92,0.10);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.03);
-      --shadow-md: 0 2px 4px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.05);
-    }
-
-    /* ── Dark theme ── */
     [data-theme="dark"] {
-      --bg: #1A1918;
-      --bg-card: #242320;
-      --bg-input: #2E2D2A;
-      --bg-input-hover: #383632;
-      --bg-input-focus: #32302C;
-      --border: #3A3835;
-      --border-strong: #4A4845;
-      --text-primary: #E8E4DF;
-      --text-secondary: #A8A29E;
-      --text-tertiary: #78716C;
-      --text-heading: #D5D0C9;
-      --accent: #C4A882;
-      --accent-subtle: rgba(196,168,130,0.12);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15);
-      --shadow-md: 0 2px 4px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.2);
+      --bg:         #111827;
+      --surface:    #1f2937;
+      --border:     #374151;
+      --text:       #d1d5db;
+      --text-muted: #9ca3af;
+      --text-head:  #f9fafb;
+      --accent:     #3b82f6;
+      --accent-lt:  rgba(59,130,246,0.15);
+      --sell:       #4ade80;
+      --sell-bg:    rgba(21,128,61,0.15);
+      --cost-bg:    rgba(255,255,255,0.04);
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; }
 
     body {
-      margin: 0;
-      padding: var(--sp-12) var(--sp-8);
-      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
       background: var(--bg);
       min-height: 100vh;
-      transition: background var(--transition), color var(--transition);
+      padding: 24px 32px;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── Header ── */
@@ -90,23 +58,22 @@
       justify-content: space-between;
       align-items: center;
       max-width: 1080px;
-      margin: 0 auto var(--sp-8);
+      margin: 0 auto 24px;
     }
     h1 {
-      font-family: "Instrument Serif", serif;
-      font-size: var(--font-lg);
-      font-weight: 400;
-      color: var(--text-heading);
-      letter-spacing: -0.01em;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-head);
+      letter-spacing: -0.3px;
     }
     .header-right {
       display: flex;
       align-items: center;
-      gap: var(--sp-4);
+      gap: 12px;
     }
     .version {
-      font-size: var(--font-sm);
-      color: var(--text-tertiary);
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
     /* ── Theme toggle ── */
@@ -116,16 +83,16 @@
       justify-content: center;
       width: 36px;
       height: 36px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text-muted);
       cursor: pointer;
-      transition: background var(--transition), border-color var(--transition), color var(--transition);
+      transition: border-color 150ms ease, color 150ms ease;
     }
     .theme-toggle:hover {
-      border-color: var(--border-strong);
-      color: var(--text-primary);
+      border-color: var(--text-muted);
+      color: var(--text);
     }
     .theme-toggle svg { width: 18px; height: 18px; }
     [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
@@ -137,85 +104,82 @@
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--sp-6);
+      gap: 20px;
       max-width: 1080px;
       margin: 0 auto;
     }
 
     /* ── Card ── */
     .card {
-      background: var(--bg-card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: var(--sp-6);
-      box-shadow: var(--shadow-sm);
-      transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
     }
 
-    /* ── Section headings ── */
     h2 {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: var(--font-xs);
+      font-size: 14px;
       font-weight: 600;
-      margin: 0 0 var(--sp-4);
-      color: var(--text-tertiary);
+      color: var(--text-head);
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
     }
 
-    /* ── Form labels ── */
-    label {
+    /* ── Form grid ── */
+    .form-grid {
       display: grid;
-      grid-template-columns: 1fr minmax(0, 200px);
-      align-items: center;
-      gap: var(--sp-3);
-      padding: var(--sp-2) 0;
-      font-size: var(--font-base);
-      color: var(--text-primary);
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 20px;
     }
-    label span { font-weight: 500; }
 
-    .row-inputs { display: flex; gap: var(--sp-4); }
-    .row-inputs label { flex: 1; grid-template-columns: 1fr minmax(0, 100px); }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .full-width { grid-column: 1 / -1; }
 
     /* ── Inputs ── */
     input, select {
       width: 100%;
-      height: 40px;
-      padding: 0 var(--sp-3);
-      border: 1.5px solid transparent;
-      border-radius: var(--radius-sm);
-      font-size: var(--font-base);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      background-color: var(--bg-input);
-      color: var(--text-primary);
-      transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-family: var(--font);
+      background-color: var(--cost-bg);
+      color: var(--text);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
       outline: none;
     }
-    input:hover, select:hover { background-color: var(--bg-input-hover); }
+    input:hover, select:hover { border-color: var(--text-muted); }
     input:focus, select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-subtle);
-      background-color: var(--bg-input-focus);
+      box-shadow: 0 0 0 3px var(--accent-lt);
     }
     select {
       cursor: pointer;
       -webkit-appearance: none;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B6560' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: var(--sp-8);
-    }
-    [data-theme="dark"] select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23A8A29E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-position: right 10px center;
+      padding-right: 32px;
     }
 
-    /* ── Dividers ── */
+    /* ── Divider ── */
     .divider {
       border: none;
       border-top: 1px solid var(--border);
-      margin: var(--sp-3) 0;
+      margin: 4px 0;
+      grid-column: 1 / -1;
     }
 
     /* ── Result rows ── */
@@ -223,80 +187,81 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: var(--sp-2) 0;
+      padding: 6px 0;
       border-bottom: 1px solid var(--border);
-      font-size: var(--font-base);
+      font-size: 14px;
     }
     .row:last-child { border-bottom: 0; }
-    .k { color: var(--text-secondary); }
-    .v { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text-primary); }
+    .k { color: var(--text-muted); }
+    .v { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text); }
+    .v.sell { color: var(--sell); font-weight: 600; }
 
     .total {
       font-weight: 700;
-      font-size: var(--font-base);
-      padding-top: var(--sp-3);
-      margin-top: var(--sp-1);
+      font-size: 14px;
+      padding-top: 8px;
+      margin-top: 2px;
       border-bottom: none;
     }
-    .total .k { color: var(--text-primary); }
-    .total .v { color: var(--text-heading); }
+    .total .k { color: var(--text); }
+    .total .v { color: var(--text-head); }
+    .total .v.sell { color: var(--sell); }
 
     /* ── Result sections ── */
     .result-section {
-      margin-top: var(--sp-4);
-      padding-top: var(--sp-4);
+      margin-top: 16px;
+      padding-top: 16px;
       border-top: 1px solid var(--border);
     }
 
     /* ── Note ── */
     .note {
-      color: var(--text-tertiary);
-      font-size: var(--font-sm);
-      margin-top: var(--sp-5);
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 4px;
       line-height: 1.55;
+      grid-column: 1 / -1;
     }
-    .note b { color: var(--text-secondary); font-weight: 600; }
+    .note b { color: var(--text); font-weight: 600; }
 
     /* ── Export bar ── */
     .export-bar {
       display: flex;
       justify-content: center;
-      gap: var(--sp-3);
+      gap: 8px;
       max-width: 1080px;
-      margin: var(--sp-6) auto 0;
+      margin: 20px auto 0;
     }
     .export-btn {
       display: inline-flex;
       align-items: center;
-      gap: var(--sp-2);
-      height: 40px;
-      padding: 0 var(--sp-5);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-      color: var(--text-secondary);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: var(--font-sm);
+      gap: 6px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: background var(--transition), border-color var(--transition), color var(--transition);
+      transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
     }
     .export-btn:hover {
-      background: var(--bg-input);
-      border-color: var(--border-strong);
-      color: var(--text-primary);
+      background: var(--cost-bg);
+      border-color: var(--text-muted);
+      color: var(--text);
     }
-    .export-btn:active { background: var(--bg-input-hover); }
+    .export-btn:active { background: var(--border); }
 
     /* ── Mobile ── */
     @media (max-width: 820px) {
-      body { padding: var(--sp-6) var(--sp-4); }
+      body { padding: 16px; }
       .grid { grid-template-columns: 1fr; }
-      .card { padding: var(--sp-5); }
-      label { grid-template-columns: 1fr; }
-      .row-inputs { flex-direction: row; gap: var(--sp-4); }
-      .row-inputs label { grid-template-columns: 1fr minmax(0, 88px); }
-      h1 { font-size: 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+      h1 { font-size: 20px; }
       .version { display: none; }
     }
   </style>
@@ -316,8 +281,8 @@
   <div class="grid">
     <div class="card">
       <h2>Inputs</h2>
+      <div class="form-grid">
 
-      <div class="row-inputs">
         <label>
           <span>Width (ft)</span>
           <input id="rugW" type="number" step="any" value="10" />
@@ -326,80 +291,81 @@
           <span>Length (ft)</span>
           <input id="rugL" type="number" step="any" value="14" />
         </label>
-      </div>
 
-      <label>
-        <span>Roll Width (ft)</span>
-        <input id="rollW" type="number" step="any" value="12" />
-      </label>
+        <label>
+          <span>Roll Width (ft)</span>
+          <input id="rollW" type="number" step="any" value="12" />
+        </label>
 
-      <label>
-        <span>Carpet Cost ($/sq yd)</span>
-        <input id="costSqYd" type="number" step="0.01" value="35" />
-      </label>
+        <label>
+          <span>Carpet Cost ($/sq yd)</span>
+          <input id="costSqYd" type="number" step="0.01" value="35" />
+        </label>
 
-      <label>
-        <span>Edge Finish</span>
-        <select id="edgeType">
-          <option value="Machine Binding" selected>Machine Binding - $2.10/lin ft</option>
-          <option value="Hand Binding">Hand Binding - $11.00/lin ft</option>
-          <option value="Serging">Serging - $3.50/lin ft</option>
-          <option value="Wool Serging">Wool Serging - $5.00/lin ft</option>
-          <option value="Hand Serging">Hand Serging - $16.00/lin ft</option>
-          <option value="One Step Non-skid Backing|sqft">One Step Non-skid Backing - $3.50/sq ft</option>
-          <option value="Wide Topstitch Binding 1.25">Wide Topstitch Binding (1¼" showing) - $4.75/lin ft</option>
-          <option value="Wide Topstitch Binding 2">Wide Topstitch Binding (2" showing) - $6.00/lin ft</option>
-          <option value="Blind Stitch Cotton">Blind Stitch Cotton (up to 3" showing) - $8.50/lin ft</option>
-          <option value="Sunbrella Binding">Sunbrella Binding - $8.50/lin ft</option>
-          <option value="Leather Blind Stitch">Leather Blind Stitch (up to 3" showing) - $11.50/lin ft</option>
-          <option value="Faux Leather Binding">Faux Leather Binding - $8.50/lin ft</option>
-          <option value="Distressed Leather Binding">Distressed Leather Binding (up to 3" showing) - $18.50/lin ft</option>
-          <option value="Microfiber Binding">Microfiber Binding (up to 3" showing) - $7.25/lin ft</option>
-          <option value="Linen Binding">Linen Binding - $11.00/lin ft</option>
-          <option value="COM Binding">C.O.M. Binding - $7.00/lin ft</option>
-          <option value="COM Leather or Faux Leather">C.O.M. Leather or Faux Leather - $9.00/lin ft</option>
-          <option value="Hand Sewn Borders">Hand Sewn Borders or Seams on Woven Goods - $16.50/lin ft</option>
-          <option value="Non-skid Padding|sqft">Non-skid Padding - $1.25/sq ft</option>
-          <option value="Premium Area Rug Padding|sqft">Premium Area Rug Padding - $1.75/sq ft</option>
-        </select>
-      </label>
+        <label class="full-width">
+          <span>Edge Finish</span>
+          <select id="edgeType">
+            <option value="Machine Binding" selected>Machine Binding - $2.10/lin ft</option>
+            <option value="Hand Binding">Hand Binding - $11.00/lin ft</option>
+            <option value="Serging">Serging - $3.50/lin ft</option>
+            <option value="Wool Serging">Wool Serging - $5.00/lin ft</option>
+            <option value="Hand Serging">Hand Serging - $16.00/lin ft</option>
+            <option value="One Step Non-skid Backing|sqft">One Step Non-skid Backing - $3.50/sq ft</option>
+            <option value="Wide Topstitch Binding 1.25">Wide Topstitch Binding (1&frac14;" showing) - $4.75/lin ft</option>
+            <option value="Wide Topstitch Binding 2">Wide Topstitch Binding (2" showing) - $6.00/lin ft</option>
+            <option value="Blind Stitch Cotton">Blind Stitch Cotton (up to 3" showing) - $8.50/lin ft</option>
+            <option value="Sunbrella Binding">Sunbrella Binding - $8.50/lin ft</option>
+            <option value="Leather Blind Stitch">Leather Blind Stitch (up to 3" showing) - $11.50/lin ft</option>
+            <option value="Faux Leather Binding">Faux Leather Binding - $8.50/lin ft</option>
+            <option value="Distressed Leather Binding">Distressed Leather Binding (up to 3" showing) - $18.50/lin ft</option>
+            <option value="Microfiber Binding">Microfiber Binding (up to 3" showing) - $7.25/lin ft</option>
+            <option value="Linen Binding">Linen Binding - $11.00/lin ft</option>
+            <option value="COM Binding">C.O.M. Binding - $7.00/lin ft</option>
+            <option value="COM Leather or Faux Leather">C.O.M. Leather or Faux Leather - $9.00/lin ft</option>
+            <option value="Hand Sewn Borders">Hand Sewn Borders or Seams on Woven Goods - $16.50/lin ft</option>
+            <option value="Non-skid Padding|sqft">Non-skid Padding - $1.25/sq ft</option>
+            <option value="Premium Area Rug Padding|sqft">Premium Area Rug Padding - $1.75/sq ft</option>
+          </select>
+        </label>
 
-      <label>
-        <span>Rug Markup</span>
-        <input id="multiplier" type="number" step="0.01" value="2.35" />
-      </label>
+        <label>
+          <span>Rug Markup</span>
+          <input id="multiplier" type="number" step="0.01" value="2.35" />
+        </label>
 
-      <label>
-        <span>Sales Tax (%)</span>
-        <input id="taxPct" type="number" step="0.01" value="9.75" />
-      </label>
+        <label>
+          <span>Sales Tax (%)</span>
+          <input id="taxPct" type="number" step="0.01" value="9.75" />
+        </label>
 
-      <label>
-        <span>Freight Cost ($)</span>
-        <input id="freight" type="number" step="0.01" value="0" />
-      </label>
+        <label>
+          <span>Freight Cost ($)</span>
+          <input id="freight" type="number" step="0.01" value="0" />
+        </label>
 
-      <hr class="divider" />
+        <hr class="divider" />
 
-      <label>
-        <span>Rug Pad</span>
-        <select id="rugPad">
-          <option value="None" selected>None</option>
-          <option value="Non-Skid">Non-Skid - $0.44/sq ft</option>
-          <option value="No-Move">No-Move - $0.54/sq ft</option>
-          <option value="Ambassador Spec 40">Ambassador Spec 40 - $0.23/sq ft</option>
-          <option value="Smart Cushion">Smart Cushion - $0.37/sq ft</option>
-        </select>
-      </label>
+        <label>
+          <span>Rug Pad</span>
+          <select id="rugPad">
+            <option value="None" selected>None</option>
+            <option value="Non-Skid">Non-Skid - $0.44/sq ft</option>
+            <option value="No-Move">No-Move - $0.54/sq ft</option>
+            <option value="Ambassador Spec 40">Ambassador Spec 40 - $0.23/sq ft</option>
+            <option value="Smart Cushion">Smart Cushion - $0.37/sq ft</option>
+          </select>
+        </label>
 
-      <label>
-        <span>Pad Markup</span>
-        <input id="padMultiplier" type="number" step="0.01" value="1.75" />
-      </label>
+        <label>
+          <span>Pad Markup</span>
+          <input id="padMultiplier" type="number" step="0.01" value="1.75" />
+        </label>
 
-      <div class="note">
-        Material area uses <b>Roll Width × Rug Length</b>. Edge finishing uses <b>Rug Width/Length</b> perimeter.
-        Rug and pad sale prices use their own markups.
+        <div class="note">
+          Material area uses <b>Roll Width &times; Rug Length</b>. Edge finishing uses <b>Rug Width/Length</b> perimeter.
+          Rug and pad sale prices use their own markups.
+        </div>
+
       </div>
     </div>
 
@@ -414,17 +380,17 @@
       <div class="row"><span class="k" id="edgeCostLabel">Edge Cost</span><span class="v" id="edgeCost">—</span></div>
 
       <div class="row total"><span class="k">Rug Subtotal (COGS + Edge)</span><span class="v" id="subtotal">—</span></div>
-      <div class="row total"><span class="k">Rug Sale Price</span><span class="v" id="sale">—</span></div>
+      <div class="row total"><span class="k">Rug Sale Price</span><span class="v sell" id="sale">—</span></div>
 
       <div class="result-section">
         <div class="row"><span class="k" id="padCostLabel">Rug Pad Cost</span><span class="v" id="padCost">—</span></div>
-        <div class="row total"><span class="k">Pad Sale Price</span><span class="v" id="padSale">—</span></div>
+        <div class="row total"><span class="k">Pad Sale Price</span><span class="v sell" id="padSale">—</span></div>
       </div>
 
       <div class="result-section">
         <div class="row"><span class="k">Sales Tax</span><span class="v" id="tax">—</span></div>
         <div class="row"><span class="k">Freight Cost</span><span class="v" id="freightCost">—</span></div>
-        <div class="row total"><span class="k">Grand Total</span><span class="v" id="grand">—</span></div>
+        <div class="row total"><span class="k">Grand Total</span><span class="v sell" id="grand">—</span></div>
       </div>
 
       <div class="result-section">
@@ -439,7 +405,7 @@
             <option value="25">25%</option>
           </select>
         </label>
-        <div class="row total"><span class="k">Trade Price</span><span class="v" id="tradePrice">—</span></div>
+        <div class="row total"><span class="k">Trade Price</span><span class="v sell" id="tradePrice">—</span></div>
       </div>
     </div>
   </div>
@@ -719,7 +685,7 @@
 
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
-      doc.setTextColor(70, 69, 56);
+      doc.setTextColor(17, 24, 39);
       doc.text("INPUTS", 20, y);
       y += 9;
 
@@ -728,9 +694,9 @@
       doc.setTextColor(50);
 
       data.inputs.forEach(([label, value]) => {
-        doc.setTextColor(74, 69, 64);
+        doc.setTextColor(107, 114, 128);
         doc.text(label, 24, y);
-        doc.setTextColor(26);
+        doc.setTextColor(55, 65, 81);
         doc.text(String(value), 200, y, { align: "right" });
         y += 7;
       });
@@ -742,7 +708,7 @@
 
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
-      doc.setTextColor(70, 69, 56);
+      doc.setTextColor(17, 24, 39);
       doc.text("RESULTS", 20, y);
       y += 9;
 
@@ -753,13 +719,13 @@
         const isTotal = label === "Grand Total" || label === "Rug Sale Price" || label === "Pad Sale Price" || label === "Trade Price" || label === "Rug Subtotal";
         if (isTotal) {
           doc.setFont("helvetica", "bold");
-          doc.setTextColor(26);
+          doc.setTextColor(17, 24, 39);
         } else {
           doc.setFont("helvetica", "normal");
-          doc.setTextColor(74, 69, 64);
+          doc.setTextColor(107, 114, 128);
         }
         doc.text(label, 24, y);
-        doc.setTextColor(26);
+        doc.setTextColor(55, 65, 81);
         doc.text(String(value), 200, y, { align: "right" });
         y += 7;
       });
